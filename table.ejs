@@ -1,0 +1,12 @@
+
+    <tbody>
+        <% for ( var i=0;i < tbody.length; i++ ) { %>
+            <tr id="tr">
+                <% for ( var j=0;j < thead.length;j++ ) { %>
+                    <td><%= tbody[i][thead[j].name] %></td>
+                <% } %>
+                <td><span><a href="#" onclick="return deleting(this,<%= tbody[i].actor_id %>)">Delete</a></span>
+                    <span><a href="#" onclick="return edit_ajax(<%= tbody[i].actor_id %>)">Edit</a></span></td>
+            </tr>
+        <% } %>
+    </tbody>

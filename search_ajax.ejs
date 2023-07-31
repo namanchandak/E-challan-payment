@@ -1,0 +1,216 @@
+<html lang="en" id="htmlPage">
+<head>
+    <title>Search</title>
+</head>
+<body>
+    <h1>SEARCH/ADD HERE</h1>
+    <div id="message"></div>
+    <!-- <h1>SEARCH RESULT</h1> -->
+    <table border="1" border-collapse="collapse" width100%>
+        <thead>
+            <tr>
+                <form>
+                    <!-- for live search onkeyup="searching()" in input -->
+                    <th><input type="search" name="actor_id" placeholder="Enter Actor ID" class="input" id="actor_id" ></th>  
+                    <th><input type="search" name="first_name" placeholder="Enter First name" class="input" id="first_name"></th>
+                    <th><input type="search" name="last_name" placeholder="Enter Last name" class="input" id="last_name"></th>
+                    <th ><span><input type="button" value="Add New" onclick="return addNew()"></span><span><input type="button" value="search" id="searchBtn" onclick="return searching()"></span></th>
+                    <!-- <th></th> -->
+                </form>
+            </tr>
+            <!-- <tr>
+                <th>ACTOR ID</th>
+                <th>FIRST NAME</th>
+                <th>LAST NAME</th>
+                <th>ACTION</th>
+            </tr>            -->
+            <tr>
+                <% for ( var i=0;i < thead.length;i++ ) { %>
+                    <th><b><%= thead[i].name %></b></th>
+                <% } %>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            <% if(tbody.length>0){ %>
+                <% for ( var i=0;i < tbody.length; i++ ) { %>
+                    <tr id="tr">
+                        <% for ( var j=0;j < thead.length;j++ ) { %>
+                            <td><%= tbody[i][thead[j].name] %></td>
+                        <% } %>
+                    <td><span><a href="#" onclick="return deleting(this,<%= tbody[i].actor_id %>)">Delete</a></span>
+                        <span><a href="#" onclick="return edit_ajax(<%= tbody[i].actor_id %>)">Edit</a></span></td>  
+                        <!-- onclick="return edit(<%= tbody[i].actor_id %>)" -->
+                    </tr>
+                <% } %>
+            <% }else{ %>
+                <h1>Data not found</h1>
+            <% } %>
+        </tbody>
+    <div id="message"></div>
+    </table>
+</body>
+</html>
+<!-- <script src="another/searching_func" type="text/javascript"> </script> -->
+
+<script>   
+    function newValues(){
+        var elements = document.querySelectorAll(".input")
+        console.log(elements);
+        const array = [];
+        for (var i = 0; i<elements.length; i++ ){
+            array[i] = document.getElementById(elements[i].id).value
+        }
+        console.log ("values",array);
+        return array;
+    }
+    function showRow(html,req,rows){
+            if(req.readyState===4 && req.status===200){        
+                if(html.length>35){ 
+                    document.getElementById("message").innerHTML="";
+                    rows.innerHTML += html;
+                    document.getElementsByTagName("input").value="";
+                }
+                else{
+                    document.querySelectorAll("#tr").forEach(function(ele) {
+                    ele.remove();
+                });
+                document.getElementById("message").innerHTML += "DATA NOT FOUND";
+                }
+            }
+            else{
+                console.log('error');
+            }
+        }
+
+    function searching(){
+        document.getElementById("message").innerHTML="";
+        var req=new XMLHttpRequest();                   //creating XMLHttpRequest
+        console.log("searching function");
+        let values = newValues();                            //taking input values in an array
+        var rows = document.getElementById("tbody");           //removing all the rows before searching
+        document.querySelectorAll("#tr").forEach(function(ele) {
+            ele.remove();
+        });
+        
+        let stmt = 'select * from actor where actor_id like "%'+values[0]+'%" and first_name like "%'+values[1]+'%" and last_name like"%'+values[2]+'%";';
+        req.open("POST","/searching",false);                   //POST
+        req.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+        req.send("stmt="+stmt);
+        const html = req.responseText;
+        req.onreadystatechange = showRow(html,req,rows);
+
+        return false;
+    }
+
+    function deleting(obj,actor_id){
+        function messageShow(html,req){
+            if(req.readyState===4 && req.status===200){        
+                alert(html);
+                obj.parentElement.parentElement.parentElement.remove();
+            }
+            else{
+                console.log('error');
+            }
+        }
+        var req=new XMLHttpRequest(); 
+        let stmt =  'delete from actor where actor_id='+actor_id+';';
+        req.open("POST","/deleting",false);                                      //POST
+    
+        req.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
+        req.send("stmt="+stmt+"&actor_id="+actor_id);
+        const html = req.responseText;
+        req.onreadystatechange = messageShow(html,req);
+        console.log(stmt);
+        return false;
+    }
+
+    function addNew(){
+        var req=new XMLHttpRequest(); 
+        function messageShow(html,req){
+            console.log(req.readyState,req.status)
+            if(req.readyState===4 && req.status===200){        
+                alert(message);
+            }
+            else{
+                console.log('error');
+            }
+        }
+        console.log("add_new function");
+        let values=newValues();
+        var table=document.getElementById("tbody");
+        
+        alert(" Actor id "+values[0]+" is successfully added to database")
+        let stmt = 'insert into actor (actor_id,first_name,last_name) values("'+values[0]+'","'+values[1]+'","'+values[2]+'");';
+        req.open("POST","/addNew",false);                   //POST
+        req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        req.send("stmt="+stmt+"&actor_id="+values[0]);
+        const html = req.responseText;
+        req.onreadystatechange = messageShow(html,req);
+        return false;
+    }
+    function newValues(){
+                var elements = document.querySelectorAll(".input")
+                console.log(elements);
+                const array = [];
+                for (var i = 0; i<elements.length; i++ ){
+                    array[i] = document.getElementById(elements[i].id).value;
+                }
+                console.log ("values",array);
+                return array;
+            }
+    function func2(req,page){
+        console.log(req.readyState,req.status);
+        if(req.readyState===4 && req.status===200){ 
+            console.log(req.readyState,req.status);
+            // document.getElementById("response").innerHTML="Record Updated";
+            // setTimeout(()=>{
+            //     page.innerHTML="";
+            // },5000)        
+            document.getElementById("response").innerHTML=req.responseText;
+            // page.innerHTML=req.responseText;
+            // window.open("/","_self");
+        }
+        else{
+            console.log('func2 error');
+        }   
+    }   
+
+    function func(page,html,req){
+        console.log(req.readyState,req.status);
+        if(req.readyState===4 && req.status===200){        
+            page.innerHTML=html;
+            console.log("in if",html);
+        }
+        else{
+            console.log('error');
+        }
+    }
+
+    function edit_ajax(actor_id){
+        let req = new XMLHttpRequest;
+        req.open("GET","/Edit?actor_id="+actor_id,false);
+        req.send();
+        let page=document.getElementById("htmlPage");
+        page.innerHTML="";
+        let html=req.responseText;
+        console.log(html);
+        req.onreadystatechange = func(page,html,req);
+        req.abort();
+        document.getElementById("updateSubmit").addEventListener('click',()=> {
+            console.log("in Edit function called");
+            console.log(document.getElementById("actor_id").value);
+            console.log(document.getElementsByClassName("input")[0].value);
+           
+            let values = newValues();
+            console.log(values);
+            let stmt = 'update actor set first_name="'+values[1]+'" ,last_name="'+values[2]+'" where actor_id='+values[0]+';';
+            console.log(stmt);
+            req.open("POST","/Edit",false);
+            req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+            req.send("stmt="+stmt);
+            req.onreadystatechange = func2(req,page);
+        });
+        return false;
+    }
+</script>

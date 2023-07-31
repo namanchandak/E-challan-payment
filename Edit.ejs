@@ -1,0 +1,20 @@
+<html lang="en" id="htmlPage">
+<head>
+    <title>Edit</title>
+</head>
+<body>
+    <div id="container">
+        <div class="header">
+            <h1>Update Actor</h1>
+        </div>
+        <div>
+            <input type="text" name="actor_id" class="input" id="actor_id" placeholder="actor_id" value="<%= tbody[0].actor_id %>" disabled required><br><br>
+            <input type="text" name="first_name" class="input" id="first_name" placeholder="First name" value="<%= tbody[0].first_name %>" required><br><br>
+            <input type="text" name="last_name" class="input" id="last_name" placeholder="Last name" value="<%= tbody[0].last_name %>" required><br><br>
+            <button id="updateSubmit">Submit</button>
+            <!-- <input type="submit" name="submit" value="Update" id="updateSubmit"> -->
+        </div>
+        <div id="response"></div>
+    </div>
+</body>
+</html>
