@@ -11,9 +11,9 @@
             <tr>
                 <form>
                     <!-- for live search onkeyup="searching()" in input -->
-                    <th><input type="search" name="actor_id" placeholder="Enter Actor ID" class="input" id="actor_id" ></th>  
+                    <th><input type="search" name="id" placeholder="Enter Actor ID" class="input" id="id" ></th>  
                     <th><input type="search" name="first_name" placeholder="Enter First name" class="input" id="first_name"></th>
-                    <th><input type="search" name="last_name" placeholder="Enter Last name" class="input" id="last_name"></th>
+                    <th><input type="search" name="email" placeholder="Enter Last name" class="input" id="email"></th>
                     <th ><span><input type="button" value="Add New" onclick="return addNew()"></span><span><input type="button" value="search" id="searchBtn" onclick="return searching()"></span></th>
                     <!-- <th></th> -->
                 </form>
@@ -38,9 +38,9 @@
                         <% for ( var j=0;j < thead.length;j++ ) { %>
                             <td><%= tbody[i][thead[j].name] %></td>
                         <% } %>
-                    <td><span><a href="#" onclick="return deleting(this,<%= tbody[i].actor_id %>)">Delete</a></span>
-                        <span><a href="#" onclick="return edit_ajax(<%= tbody[i].actor_id %>)">Edit</a></span></td>  
-                        <!-- onclick="return edit(<%= tbody[i].actor_id %>)" -->
+                    <td><span><a href="#" onclick="return deleting(`this,<%= tbody[i].id %>`)">Delete</a></span>
+                        <span><a href="#" onclick="return edit_ajax(`<%= tbody[i].id %>` )">Edit</a></span></td>  
+                        <!-- onclick="return edit(<%= tbody[i].id %>)" -->
                     </tr>
                 <% } %>
             <% }else{ %>
@@ -93,7 +93,7 @@
             ele.remove();
         });
         
-        let stmt = 'select * from actor where actor_id like "%'+values[0]+'%" and first_name like "%'+values[1]+'%" and last_name like"%'+values[2]+'%";';
+        let stmt = 'select * from actor where id like "%'+values[0]+'%" and first_name like "%'+values[1]+'%" and email like"%'+values[2]+'%";';
         req.open("POST","/searching",false);                   //POST
         req.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
         req.send("stmt="+stmt);
@@ -103,7 +103,7 @@
         return false;
     }
 
-    function deleting(obj,actor_id){
+    function deleting(obj,id){
         function messageShow(html,req){
             if(req.readyState===4 && req.status===200){        
                 alert(html);
@@ -114,11 +114,11 @@
             }
         }
         var req=new XMLHttpRequest(); 
-        let stmt =  'delete from actor where actor_id='+actor_id+';';
+        let stmt =  'delete from actor where id='+id+';';
         req.open("POST","/deleting",false);                                      //POST
     
         req.setRequestHeader("Content-Type","application/x-www-form-urlencoded")
-        req.send("stmt="+stmt+"&actor_id="+actor_id);
+        req.send("stmt="+stmt+"&id="+id);
         const html = req.responseText;
         req.onreadystatechange = messageShow(html,req);
         console.log(stmt);
@@ -141,10 +141,10 @@
         var table=document.getElementById("tbody");
         
         alert(" Actor id "+values[0]+" is successfully added to database")
-        let stmt = 'insert into actor (actor_id,first_name,last_name) values("'+values[0]+'","'+values[1]+'","'+values[2]+'");';
+        let stmt = 'insert into actor (id,first_name,email) values("'+values[0]+'","'+values[1]+'","'+values[2]+'");';
         req.open("POST","/addNew",false);                   //POST
         req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-        req.send("stmt="+stmt+"&actor_id="+values[0]);
+        req.send("stmt="+stmt+"&id="+values[0]);
         const html = req.responseText;
         req.onreadystatechange = messageShow(html,req);
         return false;
@@ -187,9 +187,9 @@
         }
     }
 
-    function edit_ajax(actor_id){
+    function edit_ajax(id){
         let req = new XMLHttpRequest;
-        req.open("GET","/Edit?actor_id="+actor_id,false);
+        req.open("GET","/Edit?id="+id,false);
         req.send();
         let page=document.getElementById("htmlPage");
         page.innerHTML="";
@@ -199,12 +199,12 @@
         req.abort();
         document.getElementById("updateSubmit").addEventListener('click',()=> {
             console.log("in Edit function called");
-            console.log(document.getElementById("actor_id").value);
+            console.log(document.getElementById("id").value);
             console.log(document.getElementsByClassName("input")[0].value);
            
             let values = newValues();
             console.log(values);
-            let stmt = 'update actor set first_name="'+values[1]+'" ,last_name="'+values[2]+'" where actor_id='+values[0]+';';
+            let stmt = 'update actor set first_name="'+values[1]+'" ,email="'+values[2]+'" where id='+values[0]+';';
             console.log(stmt);
             req.open("POST","/Edit",false);
             req.setRequestHeader("Content-Type","application/x-www-form-urlencoded");

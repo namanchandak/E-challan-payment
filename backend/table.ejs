@@ -5,8 +5,8 @@
                 <% for ( var j=0;j < thead.length;j++ ) { %>
                     <td><%= tbody[i][thead[j].name] %></td>
                 <% } %>
-                <td><span><a href="#" onclick="return deleting(this,<%= tbody[i].actor_id %>)">Delete</a></span>
-                    <span><a href="#" onclick="return edit_ajax(<%= tbody[i].actor_id %>)">Edit</a></span></td>
+                <td><span><a href="#" onclick="return deleting(this,<%= tbody[i].id %>)">Delete</a></span>
+                    <span><a href="#" onclick="return edit_ajax(<%= tbody[i].id %>)">Edit</a></span></td>
             </tr>
         <% } %>
     </tbody>
