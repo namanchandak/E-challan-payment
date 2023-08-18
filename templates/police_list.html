@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>police list</title>
+  
+  
+  
+      <link rel="stylesheet" href="/static/table.css">
+
+  
+</head>
+
+<body>
+  
+  <div class="container">
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Id</th>
+				<th>Phone No</th>
+				<th>Rank</th>
+				<th>Username</th>
+				<th>Password</th>
+			</tr>
+		</thead>
+		<tbody>
+        {% for j in police %}
+			<tr>
+				<td>{{j.Name}}</td>
+				<td>{{j.Id}}</td>
+				<td>{{j.Phone_number}}</td>
+				<td>{{j.Rank}}</td>
+				<td>{{j.UserName}}</td>
+				<td>{{j.Password}}</td>
+			</tr>
+		{% endfor %}    
+		</tbody>
+	</table>
+</div>
+  
+  
+</body>
+</html>

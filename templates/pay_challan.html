@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Pure CSS Table Highlight (vertical & horizontal)</title>
+  
+  
+  
+      <link rel="stylesheet" href="/static/table.css">
+
+  
+</head>
+
+<body>
+  
+  <div class="container">
+	<table>
+		<thead>
+			<tr>
+				<th>Challan No</th>
+				<th>Date</th>
+				<th>Time</th>
+				<th>Location</th>
+				<th>Offences</th>
+				<th>Fine</th>
+                <th>Payment Status</th>
+			</tr>
+		</thead>
+		<tbody>
+        {% for j in challan_instance %}
+			<tr>
+				<td>{{j.Challan_number}}</td>
+				<td>{{j.Offense_date}}</td>
+				<td>{{j.Offense_time}}</td>
+				<td>{{j.Location}}</td>
+				<td>{{j.Offences}}</td>
+				<td>{{j.Fees}}</td>
+                {% if j.Payment_status == False%}
+                <td>Not Paid</td>
+                {% else %}
+                <td>Paid</td>
+                {% endif %}
+			</tr>
+		{% endfor %}    
+		</tbody>
+	</table>
+</div>
+  
+  
+</body>
+</html>

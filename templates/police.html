@@ -1,0 +1,114 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+     <link rel="stylesheet" href="/static/police.css">
+     <div class="demo-page">
+        <div class="demo-page-navigation">
+          <nav>
+            <ul>
+              <li>
+                <a href="/index">
+                  Home</a>
+              </li>
+              <li>
+                <a href="#structure">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                    <polyline points="2 17 12 22 22 17" />
+                    <polyline points="2 12 12 17 22 12" />
+                  </svg>
+                  Create Challan</a>
+              </li>
+              <li>
+                <a href="#input-types">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-justify">
+                    <line x1="21" y1="10" x2="3" y2="10" />
+                    <line x1="21" y1="6" x2="3" y2="6" />
+                    <line x1="21" y1="14" x2="3" y2="14" />
+                    <line x1="21" y1="18" x2="3" y2="18" />
+                  </svg>
+                  View Challan</a>
+              </li>
+              
+            </ul>
+          </nav>
+        </div>
+        <main class="demo-page-content">
+          
+            
+          <section>
+            <div class="href-target" id="structure"></div>
+          <form action="/createchallan" method="POST">
+            {% csrf_token %}
+            <h1>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers">
+                <polygon points="12 2 2 7 12 12 22 7 12 2" />
+                <polyline points="2 17 12 22 22 17" />
+                <polyline points="2 12 12 17 22 12" />
+              </svg>
+              Create Challan
+            </h1>
+            <div class="nice-form-group">
+              <label>Vehicle Number</label>
+              <input type="text" placeholder="Vehicle Number" value="" name="vehicle_number" required/>
+            </div>
+            <div class="nice-form-group">
+              <label>Location</label>
+              <input type="text" placeholder="Location" value="" name="location" required/>
+            </div>
+            
+            <div class="nice-form-group">
+            <label for="dropdownSelect" >Type of Offences</label>
+            <select id="dropdownSelect" name="Offences">
+              <option value="">NA</option>
+                <option value="1">Driving without a seat belt</option>
+                <option value="2">Triple riding on two-vehicle</option>
+                <option value="3">Driving without helmet</option>
+                <option value="4">Carrying excess luggage</option>
+                <option value="5">Driving without a number plate</option>
+                <option value="6">Parking in ‘no parking zone</option>
+                <option value="7">Minor driving vehicle</option>
+                <option value="8">Disobey of traffic signals</option>
+                <option value="9">Dangerous/rash driving</option>
+                <option value="10">Using a mobile phone while driving</option>
+                <option value="11">Drunken driving</option>
+                <option value="12">Driving vehicle without registration</option>
+                <option value="13">Over-speeding</option>
+                <option value="14">Driving when mentally or physically unfit to drive</option>
+                <option value="15">Driving without a valid driving license</option>
+                <option value="16">Driving without insurance</option>
+                <option value="17">Overloading</option>
+                
+            </select><div>
+                    <button type="submit" class="btn btn-info b">Create</button>
+          </form>
+          </section>
+      
+          <section>
+            <div class="href-target" id="input-types"></div>
+            <h1>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-align-justify">
+                <line x1="21" y1="10" x2="3" y2="10" />
+                <line x1="21" y1="6" x2="3" y2="6" />
+                <line x1="21" y1="14" x2="3" y2="14" />
+                <line x1="21" y1="18" x2="3" y2="18" />
+              </svg>
+              View Challan
+            </h1>
+           
+            <form action="/challan_form" method="POST">
+              {% csrf_token %}
+            <div class="nice-form-group">
+              <label>Vehicle Number</label>
+              <input type="text" placeholder="vehicle number" value="" name="vehicle_no" />
+            </div>
+      
+            <button type="submit" class="btn btn-info b">View</button>
+            {% if message %}
+            <p>{{ message }}</p>
+            {% endif %}
+            </form>
+              {% comment %} <script src="https://gist.github.com/nielsVoogt/e25c9c8f2b8456bbd1239b775d21333f.js"></script> {% endcomment %}
+            
+          </section>
+        <footer>Traffic_Police_Indore</footer>
+        </main>
+      </div>

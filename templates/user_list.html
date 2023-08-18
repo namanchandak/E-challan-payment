@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>User list</title>
+  
+  
+  
+      <link rel="stylesheet" href="/static/table.css">
+
+  
+</head>
+
+<body>
+  
+  <div class="container">
+	<table>
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>License number</th>
+				<th>Vehicle number</th>
+				<th>Phone number</th>
+				<th>Mail</th>
+				<th>Insurance number</th>
+				<th>Registration number</th>
+				<th>Address</th>
+			</tr>
+		</thead>
+		<tbody>
+        {% for j in user %}
+			<tr>
+				<td>{{j.Name}}</td>
+				<td>{{j.License_numbe}}</td>
+				<td>{{j.Vehicle_number}}</td>
+				<td>{{j.Phone_number}}</td>
+				<td>{{j.Mail}}</td>
+				<td>{{j.Insurance_number}}</td>
+				<td>{{j.Registration_number}}</td>
+				<td>{{j.Address}}</td>
+			</tr>
+		{% endfor %}    
+		</tbody>
+	</table>
+</div>
+  
+  
+</body>
+</html>

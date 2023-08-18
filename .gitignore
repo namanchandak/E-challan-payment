@@ -1,0 +1,60 @@
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore local development settings (if using settings splitting)
+**/local_settings.py
+
+# Ignore database files
+*.sqlite3
+
+# Ignore logs and temporary files
+*.log
+*.swp
+*.swo
+*.tmp
+
+# Ignore media and static files (can be uploaded separately)
+media/
+static/
+
+# Ignore virtual environment files (if using virtualenv or venv)
+venv/
+env/
+*.env
+
+# Ignore IDE-specific files (adjust based on your IDE)
+.vscode/
+.idea/
+
+# Ignore compiled translations
+*.mo
+
+# Ignore secret keys and sensitive data (if not using environment variables)
+settings.py
+secrets.json
+*.secret
+
+# Ignore cache directories
+__pycache__/
+.caches/
+
+# Ignore compiled JavaScript files
+*.js
+
+# Ignore compiled CSS files
+*.css
+
+# Ignore database backups (adjust if using a different backup strategy)
+*.backup
+
+# Ignore system files and directories
+.DS_Store
+Thumbs.db
+
+# Ignore local development files and folders
+*.bak
+*.old
+*.swp
