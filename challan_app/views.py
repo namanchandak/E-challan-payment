@@ -3,6 +3,14 @@ from challan_app.models import Contact,Police,Challan,Universal
 from django.shortcuts import render , redirect
 import os
 from twilio.rest import Client
+from django.contrib.auth import logout
+from django.contrib.auth import login, authenticate, logout
+
+
+def logout_request(request):
+	logout(request)
+
+	return redirect("home")
 
 # Create your views here.
 def index(request):
