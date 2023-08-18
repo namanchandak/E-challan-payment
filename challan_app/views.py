@@ -125,18 +125,23 @@ def pay_challan(request):
 def challan_form(request):
     if request.method == 'POST':
         Vehicle_number = request.POST['vehicle_no']
-        universal=Universal.objects.get(Vehicle_number=Vehicle_number)
-        challan_instance = Challan.objects.filter(Vehicle_number=universal) 
-        if challan_instance.exists():
-            context={
-                "challan_instance": challan_instance
-            }
-            return render(request, 'pay_challan.html', context)
-        else:
-            # Vehicle does not exist, display a message
-            message = "No challans pendings."
+        try:
+            universal = Universal.objects.get(Vehicle_number=Vehicle_number)
+            challan_instance = Challan.objects.filter(Vehicle_number=universal)
+            if challan_instance.exists():
+                context = {
+                    "challan_instance": challan_instance
+                }
+                return render(request, 'pay_challan.html', context)
+            else:
+                # No challans pending
+                message = "No challans pending."
+                return render(request, 'challan_form.html', {'message': message})
+        except Universal.DoesNotExist:
+            # Vehicle does not exist
+            message = "Vehicle does not exist."
             return render(request, 'challan_form.html', {'message': message})
-    
+
     return render(request, 'challan_form.html')  # Render the form template
 
 
